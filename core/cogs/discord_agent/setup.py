@@ -8,6 +8,7 @@ import io
 import json
 import logging
 import re
+import sys
 import traceback
 import uuid
 from collections.abc import Awaitable, Callable
@@ -15,12 +16,14 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
+import os
 
-import config
 import discord
-from core.utils import load_json, log, save_json
 from discord import app_commands
 from mistralai.client import Mistral
+
+import config
+from core.utils import load_json, log, save_json
 
 # ══════════════════════ 可調整參數（集中在這裡） ══════════════════════
 LOGGER = log.add_logg(
@@ -33,7 +36,13 @@ LOGGER = log.add_logg(
 DATA_FILE = config.DATA_FILES["discord_agent_data"]
 PROMPT_FIRST_FILE = Path(__file__).with_name("prompt_first.txt")
 
-MISTRAL_API_KEY = LOGGER.critical("請替換成你的 api key 前往 https://console.mistral.ai/api-keys 申請")
+MISTRAL_API_KEY = None
+
+if not MISTRAL_API_KEY:
+    LOGGER.critical("請設定你的 Mistral api key 並替換 setup.py:39")
+    os.startfile(r"https://console.mistral.ai/api-keys")
+    sys.exit()
+
 MODEL_NAME = "codestral-2508" # 或其他付費ai
 
 SYSTEM_PROMPT = ""        # 留空則不送 system 訊息

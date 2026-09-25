@@ -4,10 +4,10 @@ import logging
 import os
 
 import discord
+from discord.ext import commands
 
 # 匯入日誌工具
 from core.utils import log
-from discord.ext import commands
 
 # 建立 Logger
 LOGGER = log.add_logg(
@@ -19,8 +19,6 @@ LOGGER = log.add_logg(
 # 初始化 Bot 實例
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix="!", intents=intents)
-
-LOGGER.info("請前往 Discord 開發者中心 將機器人的所有 intents 開啟 或者是自行修改 intents")
 
 @bot.event
 async def on_ready():
@@ -45,15 +43,16 @@ async def load_extensions():
 
 
 async def main():
-    # 載入 Extensions
-    await load_extensions()
-
     # 改成你自己的 Token
     token = None
 
     if not token:
-        LOGGER.critical("DISCORD_TOKEN 未設定")
+        LOGGER.critical("請設定你的 Discord token 並替換 main.py:47")
+        os.startfile(r"https://discord.com/developers/applications")
         return
+
+    # 載入 Extensions
+    await load_extensions()
 
     try:
         await bot.start(token)

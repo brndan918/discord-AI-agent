@@ -53,6 +53,8 @@ echo updating...
 git fetch --all > nul
 git reset --hard origin/main > nul
 
+del install_ai-agent.txt
+
 start "" "%~f0"
 
 exit /b
