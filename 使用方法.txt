@@ -1,0 +1,9 @@
+使用教學如下:
+
+1. 設定機器人:
+- 請替換 main.py:52 為你自己的 discord bot token
+- 請替換 setup.py:36 為你自己的 mistral api key
+
+2. 運行:
+雙擊 run.bat 運行機器人
+ctrl+c 即可停止運行
