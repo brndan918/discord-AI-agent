@@ -1,6 +1,0 @@
-╭───────────────── discord_agent (/agent setup) ─────────────────╮
-│ [2026-09-26 00:36:22.193 +2765ms] | CRITICAL |                 │
-│ core\cogs\discord_agent\setup.py:36 in <module>                │
-│ └─ 請替換成你的 api key 前往                                   │
-│ https://console.mistral.ai/api-keys 申請                       │
-╰────────────────────────────────────────────────────────────────╯
