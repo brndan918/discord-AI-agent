@@ -55,7 +55,12 @@ git fetch --all --quiet
 git reset --hard --quiet origin/main
 
 del install_ai-agent.txt
-del .env.example
+
+if exist .env (
+    del /q .env.example
+) else if exist .env.example (
+    ren .env.example .env
+)
 
 echo update success!
 echo restarting...
