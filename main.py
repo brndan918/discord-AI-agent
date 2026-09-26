@@ -35,12 +35,17 @@ async def on_ready():
 
 async def load_extensions():
     """載入所有 Bot Cogs 模組"""
-    extension = "core.cogs.discord_agent.agent"
-    try:
-        await bot.load_extension(extension)
-        LOGGER.info(f"Successfully loaded extension: {extension}")
-    except Exception:
-        LOGGER.error(f"Failed to load extension: {extension}", exc_info=True)
+    extensions = [
+        "core.cogs.discord_agent.agent",
+        "core.cogs.stop.stop",
+    ]
+
+    for ext in extensions:
+        try:
+            await bot.load_extension(ext)
+            LOGGER.info(f"Successfully loaded extension: {ext}")
+        except Exception:
+            LOGGER.error(f"Failed to load extension: {ext}", exc_info=True)
 
 
 async def main():
