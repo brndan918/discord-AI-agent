@@ -42,7 +42,7 @@ iex (irm bit.ly/4ya6S1E)
 雙擊運行 `install_requirements.bat`
 
 ### 3. 設定環境變數
-進入 `.env` 檔案 並修改裡面的值為實際 API-KEY 和 BOT-TOKEN
+進入 `.env` 檔案 並修改裡面的值為實際 `API_KEY` 和 `BOT_TOKEN`
 
 ### 4. 啟動 DAI
 雙擊運行 `run.bat`
