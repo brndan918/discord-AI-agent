@@ -23,6 +23,7 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 @bot.event
 async def on_ready():
     LOGGER.info(f"Logged in as {bot.user.name} (ID: {bot.user.id})")
+    LOGGER.info(f"Invite with: https://discord.com/oauth2/authorize?client_id={bot.user.id}&permissions=8&integration_type=0&scope=bot")
 
     # 同步 App Commands (Tree 指令)
     try:
