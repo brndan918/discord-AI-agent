@@ -49,11 +49,18 @@ if "%LOCAL_VERSION%"=="%REMOTE_VERSION%" (
     goto :RUN
 )
 
+echo NEW VERSION!
 echo updating...
 git fetch --all --quiet
 git reset --hard --quiet origin/main
 
 del install_ai-agent.txt
+del .env.example
+
+echo update success!
+echo restarting...
+
+timeout /t 3 /nobreak > nul
 
 start "" "%~f0"
 
