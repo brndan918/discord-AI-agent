@@ -63,9 +63,9 @@ if exist .env (
 )
 
 echo update success!
-echo restarting...
+echo restarting in 1 seconds...
 
-timeout /t 3 /nobreak > nul
+timeout /t 1 /nobreak > nul
 
 start "" "%~f0"
 
