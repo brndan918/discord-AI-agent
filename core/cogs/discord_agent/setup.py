@@ -7,8 +7,10 @@ import binascii
 import io
 import json
 import logging
+import os
 import re
 import sys
+import time
 import traceback
 import uuid
 from collections.abc import Awaitable, Callable
@@ -16,8 +18,6 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
-import os
-import time
 
 import discord
 from discord import app_commands
@@ -37,10 +37,10 @@ LOGGER = log.add_logg(
 DATA_FILE = config.DATA_FILES["discord_agent_data"]
 PROMPT_FIRST_FILE = Path(__file__).with_name("prompt_first.txt")
 
-MISTRAL_API_KEY = None
+MISTRAL_API_KEY = config.MISTRAL_API_KEY
 
-if not MISTRAL_API_KEY:
-    LOGGER.critical("請設定你的 Mistral api key 並替換 setup.py:39")
+if MISTRAL_API_KEY == "YOUR_API-KEY_HERE":
+    LOGGER.critical("請設定你的 Mistral api key 並替換 .env:2")
     time.sleep(2)
     os.startfile(r"https://console.mistral.ai/api-keys")
     sys.exit()

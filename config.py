@@ -1,8 +1,6 @@
 import os
 
-# 加載環境變量 根據情況決定是否使用 須自行擴充
-# from dotenv import load_dotenv
-# load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
+from dotenv import load_dotenv
 
 # 基本路徑設置
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -16,10 +14,10 @@ COGS_BASE_PATH = os.path.join(
 # 確保數據目錄存在
 os.makedirs(DATA_DIR, exist_ok=True)
 
-# 日誌設置 根據情況決定是否使用 須自行擴充
-# LOGGING_CONFIG = {
-#     "level": "INFO",  # 可以設置為 "DEBUG", "INFO", "WARNING", "ERROR"
-# }
+load_dotenv(os.path.join(BASE_DIR, ".env"))
+
+TOKEN = os.getenv("BOT_TOKEN")
+MISTRAL_API_KEY = os.getenv("API_KEY")
 
 # 數據文件路徑
 DATA_FILES = {

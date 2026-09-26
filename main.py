@@ -6,6 +6,8 @@ import os
 import discord
 from discord.ext import commands
 
+import config
+
 # 匯入日誌工具
 from core.utils import log
 
@@ -50,10 +52,10 @@ async def load_extensions():
 
 async def main():
     # 改成你自己的 Token
-    token = None
+    token = config.TOKEN
 
-    if not token:
-        LOGGER.critical("請設定你的 Discord token 並替換 main.py:47")
+    if token == "YOUR_BOT-TOKEN_HERE":
+        LOGGER.critical("請設定你的 Discord token 並替換 .env:1")
         await asyncio.sleep(2)
         os.startfile(r"https://discord.com/developers/applications")
         return

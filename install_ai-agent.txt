@@ -57,6 +57,13 @@ Set-Location -Path $projectName
 Write-Host "正在自動建立專案..."
 
 git clone -q https://github.com/brndan918/discord-AI-agent.git .
+
+if (Test-Path ".env") {
+    Remove-Item -Path ".env.example" -ErrorAction SilentlyContinue
+} else {
+    Rename-Item -Path ".env.example" -NewName ".env" -ErrorAction SilentlyContinue
+}
+
 Remove-Item -Path "install_ai-agent.txt" -Force | Out-Null
 
 Write-Host "專案建立完成！" -ForegroundColor Green
