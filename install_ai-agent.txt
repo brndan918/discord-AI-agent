@@ -12,7 +12,7 @@ Write-Host "請先安裝 Python 和 git 這兩個前置作業。"
     Start-Sleep -Seconds 1
 }
 
-Write-Host "`r開始安裝！                               "
+Write-Host "將在 0 秒後開始安裝..."
 
 Start-Sleep -Seconds 5
 
