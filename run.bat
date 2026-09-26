@@ -74,3 +74,4 @@ exit /b
 :RUN
 python main.py
 pause
+exit
