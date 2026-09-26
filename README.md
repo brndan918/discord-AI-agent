@@ -23,7 +23,7 @@ DAI 是一個能讓 Discord Bot 結合 AI 能力並呼叫 Discord API 的自動�
    * 點擊 **Reset Token** 並複製產生的 Token (請妥善保存，勿對外洩漏)。
    * 開啟 **Privileged Gateway Intents** 相關權限 (請一定要勾選 `MESSAGE CONTENT INTENT` 與 `SERVER MEMBERS INTENT` 與 `Presence Intent`)。
 
-4. 前往 [Mistral API](https://admin.mistral.ai/organization/api-keys)。
+4. 前往 [Mistral API](https://console.mistral.ai/api-keys)。
 5. 點擊右上角 **New key** 並輸入 Key 名稱。
 6. 點擊右下角 **New key** 按鈕 建立新的 api key 並複製 (請妥善保存，勿對外洩漏)。
 
