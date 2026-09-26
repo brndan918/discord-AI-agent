@@ -50,8 +50,8 @@ if "%LOCAL_VERSION%"=="%REMOTE_VERSION%" (
 )
 
 echo updating...
-git fetch --all > nul
-git reset --hard origin/main > nul
+git fetch --all --quiet
+git reset --hard --quiet origin/main
 
 del install_ai-agent.txt
 
