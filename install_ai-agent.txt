@@ -67,7 +67,7 @@ if (Test-Path ".env") {
 Remove-Item -Path "install_ai-agent.txt" -Force | Out-Null
 
 Write-Host "專案建立完成！" -ForegroundColor Green
-Write-Host "請查看 使用方法.txt"
+Write-Host "請查看 README.md"
 
 Start-Sleep -Seconds 2
 
