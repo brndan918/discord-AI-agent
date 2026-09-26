@@ -67,10 +67,12 @@ if (Test-Path ".env") {
 Remove-Item -Path "install_ai-agent.txt" -Force | Out-Null
 
 Write-Host "專案建立完成！" -ForegroundColor Green
+
 $esc = [char]27
 $url = "https://github.com/brndan918/discord-AI-agent#dai-discord-ai-tool-%E5%AE%89%E8%A3%9D%E8%88%87%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97"
+$link = "${esc}]8;;${url}${esc}\README.md${esc}]8;;${esc}\"
 
-Write-Host "請查看 ${esc}]8;;${url}${esc}\README.md${esc}]8;;${esc}"
+Write-Host "請查看 $link"
 
 Start-Sleep -Seconds 2
 
