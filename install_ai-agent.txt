@@ -7,9 +7,9 @@ Write-Host "這是一個 Discord AI agent 專案。"
 Write-Host "你現在應該是在安裝此專案吧。"
 Write-Host "請先安裝 Python 和 git 這兩個前置作業。"
 
-for (\(i = 5;\)i -gt 0; $i--) {
-    Write-Host "`r將在 $i 秒後開始安裝..." -NoNewline
-    Start-Sleep -Seconds 1
+5..1 | ForEach-Object {
+    Write-Host "`r將在 $_ 秒後開始安裝..." -NoNewline
+    Start-Sleep -Seconds 1
 }
 
 Write-Host "`r開始安裝！                               "
