@@ -9,7 +9,7 @@ from core.utils import log
 LOGGER = log.add_logg(
     name="stop bot (/stop)",
     level=logging.INFO,
-    color="Magenta"
+    color="magenta"
 )
 
 class ConfirmStopView(discord.ui.View):
