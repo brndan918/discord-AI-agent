@@ -53,7 +53,7 @@ class StopCog(commands.Cog):
     async def stop_bot(self, interaction: discord.Interaction):
         view = ConfirmStopView(author_id=interaction.user.id)
         await interaction.response.send_message(
-            "⚠️ **確定要停止機器人嗎？",
+            "⚠️ **確定要停止機器人嗎？**",
             view=view,
             ephemeral=True,  # 設為僅指令發送者可見
         )
