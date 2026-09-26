@@ -1,3 +1,6 @@
+# 安裝用 powershell
+# iex (irm bit.ly/4ya6S1E)
+
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
 Write-Host "這是一個 Discord AI agent 專案。"
