@@ -54,3 +54,8 @@ git clone -q https://github.com/brndan918/discord-AI-agent.git .
 Remove-Item -Path "install_ai-agent.txt" -Force | Out-Null
 
 Write-Host "專案建立完成！" -ForegroundColor Green
+Write-Host "請查看 使用方法.txt"
+
+Start-Sleep -Seconds 2
+
+explorer .
