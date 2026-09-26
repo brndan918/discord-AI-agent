@@ -17,6 +17,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 import os
+import time
 
 import discord
 from discord import app_commands
@@ -40,6 +41,7 @@ MISTRAL_API_KEY = None
 
 if not MISTRAL_API_KEY:
     LOGGER.critical("請設定你的 Mistral api key 並替換 setup.py:39")
+    time.sleep(2)
     os.startfile(r"https://console.mistral.ai/api-keys")
     sys.exit()
 

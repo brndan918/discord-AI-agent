@@ -48,6 +48,7 @@ async def main():
 
     if not token:
         LOGGER.critical("請設定你的 Discord token 並替換 main.py:47")
+        await asyncio.sleep(2)
         os.startfile(r"https://discord.com/developers/applications")
         return
 
