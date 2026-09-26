@@ -1,4 +1,12 @@
-# 檢查 Python 與 Git 是否安裝
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+
+Write-Host "這是一個 Discord AI agent 專案。"
+Write-Host "你現在應該是在安裝此專案吧。"
+Write-Host "請先安裝 Python 和 git 這兩個前置作業。"
+Write-Host "5 秒後開始安裝"
+
+Start-Sleep -Seconds 5
+
 $pythonInstalled = Get-Command python -ErrorAction SilentlyContinue
 $gitInstalled    = Get-Command git -ErrorAction SilentlyContinue
 
@@ -12,37 +20,34 @@ if (-not $gitInstalled) {
     $missingTools += "Git"
 }
 
-# 若缺少工具，提示後停止執行
 if ($missingTools.Count -gt 0) {
     Write-Host "【提示】未檢測到以下工具：$($missingTools -join ', ')" -ForegroundColor Red
     Write-Host "請先安裝對應工具並設定環境變數（PATH）後再試。" -ForegroundColor Yellow
     exit
 }
 
-Write-Host "已確認 Python 與 Git 均已安裝！" -ForegroundColor Green
+Write-Host "Python 與 Git 均已安裝，前置作業已完成！" -ForegroundColor Green
 
-# 詢問是否繼續
-$confirm = Read-Host "是否繼續設定專案？(y/n)"
+$confirm = Read-Host "你是否要新增 Discord AI agent 到你的專案？ (y/n)"
 
 if ($confirm.ToLower() -ne "y") {
     Write-Host "操作已終止。" -ForegroundColor Yellow
     exit
 }
 
-# 取得專案名稱並建立資料夾
-$projectName = Read-Host "請輸入專案名稱"
+$projectName = Read-Host "請輸入資料夾名稱"
 
 if ([string]::IsNullOrWhiteSpace($projectName)) {
     Write-Host "專案名稱不能為空，操作已終止。" -ForegroundColor Red
     exit
 }
 
-# 建立並進入資料夾
 New-Item -ItemType Directory -Path $projectName -Force | Out-Null
 Set-Location -Path $projectName
 
-Write-Host "已建立並進入資料夾：$projectName" -ForegroundColor Cyan
-Write-Host "開始 Clone 專案..." -ForegroundColor Cyan
+Write-Host "正在自動建立專案..."
 
-# 執行 git clone
-git clone https://github.com/brndan918/discord-AI-agent.git .
+git clone https://github.com/brndan918/discord-AI-agent.git . | Out-Null
+Remove-Item -Path "install_ai-agent.txt" -Force | Out-Null
+
+Write-Host "專案建立完成" -ForegroundColor Green
