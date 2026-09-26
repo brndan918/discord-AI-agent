@@ -26,27 +26,27 @@ set "VERSION_URL=https://raw.githubusercontent.com/brndan918/discord-AI-agent/re
 curl -L -s "%VERSION_URL%" -o "%TEMP%\discord_ai_agent_version.json"
 
 if not exist "%TEMP%\discord_ai_agent_version.json" (
-    goto :INSTALL
+    goto :RUN
 )
 
 for /f "delims=" %%i in ('python -c "import json; print(json.load(open(r'%TEMP%\discord_ai_agent_version.json', encoding='utf-8')).get('version',''))" 2^>nul') do set "REMOTE_VERSION=%%i"
 
 if not exist "version.json" (
-    goto :INSTALL
+    goto :RUN
 )
 
 for /f "delims=" %%i in ('python -c "import json; print(json.load(open('version.json', encoding='utf-8')).get('version',''))" 2^>nul') do set "LOCAL_VERSION=%%i"
 
 if "%REMOTE_VERSION%"=="" (
-    goto :INSTALL
+    goto :RUN
 )
 
 if "%LOCAL_VERSION%"=="" (
-    goto :INSTALL
+    goto :RUN
 )
 
 if "%LOCAL_VERSION%"=="%REMOTE_VERSION%" (
-    goto :INSTALL
+    goto :RUN
 )
 
 echo updating...
@@ -59,8 +59,6 @@ start "" "%~f0"
 
 exit /b
 
-:INSTALL
-pip install -r requirements.txt > nul
-
+:RUN
 python main.py
 pause
