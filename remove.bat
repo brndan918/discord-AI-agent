@@ -13,6 +13,6 @@ if errorlevel 2 (
     exit /b
 )
 
-start /b cmd /c "title '正在刪除專案' & timeout /t 1 /nobreak > nul & rd /s /q "%TARGET_DIR%""
+start /b cmd /c "title 正在刪除專案 & timeout /t 1 /nobreak > nul & rd /s /q "%TARGET_DIR%""
 
 exit
