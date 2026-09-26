@@ -69,9 +69,9 @@ timeout /t 1 /nobreak > nul
 
 start "" "%~f0"
 
-exit /b
+exit
 
 :RUN
 python main.py
 pause
-exit /b
+exit
