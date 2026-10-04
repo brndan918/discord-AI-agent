@@ -72,6 +72,12 @@ start "" "%~f0"
 exit
 
 :RUN
+if not exist .ok-requirements (
+    echo install requirements...
+    start "" "install_requirements.bat" "auto-restart"
+    exit
+)
+
 python main.py
 pause
 exit
