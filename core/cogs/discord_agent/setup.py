@@ -25,6 +25,7 @@ from mistralai.client import Mistral
 
 import config
 from core.utils import load_json, log, save_json
+from main import update_token
 
 # ══════════════════════ 可調整參數（集中在這裡） ══════════════════════
 LOGGER = log.add_logg(
@@ -37,13 +38,42 @@ LOGGER = log.add_logg(
 DATA_FILE = config.DATA_FILES["discord_agent_data"]
 PROMPT_FIRST_FILE = Path(__file__).with_name("prompt_first.txt")
 
+def update_api_key(key):
+    file_path = '.env'
+
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            lines = f.readlines()
+    except FileNotFoundError:
+        lines = []
+
+    new_second_line = f"API_KEY={key}\n"
+
+    if len(lines) >= 2:
+        lines[1] = new_second_line
+    elif len(lines) == 1:
+        if not lines[0].endswith('\n'):
+            lines[0] += '\n'
+        lines.append(new_second_line)
+    else:
+        lines = ['\n', new_second_line]
+
+    with open(file_path, 'w', encoding='utf-8') as f:
+        f.writelines(lines)
+
 MISTRAL_API_KEY = config.MISTRAL_API_KEY
 
 if MISTRAL_API_KEY == "YOUR_API-KEY_HERE":
-    LOGGER.critical("請設定你的 Mistral api key 並替換 .env:2")
+    LOGGER.critical("請取得你的 Mistral api key")
     time.sleep(2)
     os.startfile(r"https://console.mistral.ai/api-keys")
-    sys.exit()
+    time.sleep(5)
+    update_api_key(input("請在此輸入你的 Mistral API key："))
+    LOGGER.info("API KEY 設定完成 即將重新啟動")
+    time.sleep(3)
+
+    os.startfile(r"run.bat")
+    sys.exit(3)
 
 MODEL_NAME = "codestral-2508" # 或其他付費ai
 

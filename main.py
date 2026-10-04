@@ -2,6 +2,7 @@
 import asyncio
 import logging
 import os
+import sys
 
 import discord
 from discord.ext import commands
@@ -17,6 +18,25 @@ LOGGER = log.add_logg(
     level=logging.INFO,
     color="cyan"
 )
+
+def update_token(token):
+    file_path = '.env'
+
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            lines = f.readlines()
+    except FileNotFoundError:
+        lines = []
+
+    new_first_line = f"BOT_TOKEN={token}\n"
+
+    if lines:
+        lines[0] = new_first_line
+    else:
+        lines = [new_first_line]
+
+    with open(file_path, 'w', encoding='utf-8') as f:
+        f.writelines(lines)
 
 # 初始化 Bot 實例
 intents = discord.Intents.all()
@@ -55,10 +75,16 @@ async def main():
     token = config.TOKEN
 
     if token == "YOUR_BOT-TOKEN_HERE":
-        LOGGER.critical("請設定你的 Discord token 並替換 .env:1")
+        LOGGER.critical("請取得你的 Bot token")
         await asyncio.sleep(2)
         os.startfile(r"https://discord.com/developers/applications")
-        return
+        await asyncio.sleep(5)
+        update_token(input("請在此輸入你的 Bot token："))
+        LOGGER.info("BOT TOKEN 設定完成 即將重新啟動")
+        await asyncio.sleep(3)
+
+        os.startfile(r"run.bat")
+        sys.exit(2)
 
     # 載入 Extensions
     await load_extensions()

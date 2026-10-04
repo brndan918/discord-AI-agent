@@ -80,5 +80,12 @@ if not exist .ok-requirements (
 )
 
 python main.py
+
+if %errorlevel% equ 2 (
+    exit
+) else if %errorlevel% equ 3 (
+    exit
+)
+
 pause
 exit
