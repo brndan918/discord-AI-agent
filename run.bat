@@ -74,6 +74,7 @@ exit
 :RUN
 if not exist .ok-requirements (
     echo install requirements...
+    ping -n 3 127.0.0.1 > nul
     start "" "install_requirements.bat" "auto-restart"
     exit
 )
