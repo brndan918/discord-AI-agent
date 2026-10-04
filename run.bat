@@ -63,9 +63,9 @@ if exist .env (
 )
 
 echo update success!
-echo restarting in 1 seconds...
+echo restarting in 3 seconds...
 
-timeout /t 1 /nobreak > nul
+ping -n 4 127.0.0.1 > nul
 
 start "" "%~f0"
 
