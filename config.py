@@ -14,7 +14,7 @@ COGS_BASE_PATH = os.path.join(
 # 確保數據目錄存在
 os.makedirs(DATA_DIR, exist_ok=True)
 
-load_dotenv(os.path.join(BASE_DIR, ".env"))
+load_dotenv(os.path.join(BASE_DIR, ".env"), overwrite=True)
 
 TOKEN = os.getenv("BOT_TOKEN")
 MISTRAL_API_KEY = os.getenv("API_KEY")
