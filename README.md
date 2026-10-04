@@ -36,7 +36,23 @@ DAI 是一個能讓 Discord Bot 結合 AI 能力並呼叫 Discord API 的自動�
 ```bash
 iex (irm bit.ly/4ya6S1E)
 ```
-**注意: 請不要直接 clone 或是 Download ZIP**
+**注意: 如果你不信任官方短網址安裝 你仍可以選擇手動安裝**
+請開啟 cmd 並輸入以下內容:
+```bash
+mkdir "discord-ai-agent"
+cd "discord-ai-agent"
+git clone https://github.com/brndan918/discord-AI-agent.git .
+ren .env.example .env
+del "install_ai-agent.txt"
+```
+
+- 指令解析
+  - 建立並進入 `discord-ai-agent` 資料夾 (前兩行)
+  - 複製整套專案
+  - 將 `.env.example` 重新命名 `.env`
+  - 刪除安裝檔本身
+- 缺點
+  - 無自動偵測依賴項目 若缺少 將直接崩潰 無法執行
 
 ### 2. 安裝依賴套件
 雙擊運行 `install_requirements.bat`
