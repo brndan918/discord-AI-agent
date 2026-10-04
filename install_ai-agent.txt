@@ -73,6 +73,7 @@ $url = "https://github.com/brndan918/discord-AI-agent#dai-discord-ai-tool-%E5%AE
 $link = "${esc}]8;;${url}${esc}\README.md${esc}]8;;${esc}\"
 
 Write-Host "請查看 $link"
+Write-Host "請運行 install_requirements.bat 安裝依賴"
 
 Start-Sleep -Seconds 2
 
