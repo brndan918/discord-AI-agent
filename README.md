@@ -34,7 +34,7 @@ DAI 是一個能讓 Discord Bot 結合 AI 能力並呼叫 Discord API 的自動�
 ### 1. 複製專案庫
 開啟終端機 (powershell) 並執行以下指令：
 ```bash
-iex (irm bit.ly/4ya6S1E)
+iex (irm bit.ly/discord-DAI)
 ```
 **注意: 如果你不信任官方短網址安裝 你仍可以選擇手動安裝**
 請開啟 cmd 並輸入以下內容:
