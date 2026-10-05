@@ -8,8 +8,7 @@ if exist .ok-requirements (
     echo 正在安裝 requirements.txt
     ping -n 2 127.0.0.1 > nul
     echo 依賴套件已安裝，跳過安裝步驟。
-    echo 安裝完成！
-) else (
+    ) else (
     echo 正在安裝 requirements.txt
     pip install -r requirements.txt
     echo 安裝完成！
