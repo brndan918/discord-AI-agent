@@ -75,7 +75,7 @@ if GEMINI_API_KEY == "YOUR_API-KEY_HERE":
     os.startfile(r"run.bat")
     sys.exit(3)
 
-MODEL_NAME = "gemini-3.8-flash"  # 或其他 Gemini 模型
+MODEL_NAME = "gemini-3.5-flash-lite"  # 或其他 Gemini 模型
 
 SYSTEM_PROMPT = ""        # 留空則不送 system 訊息
 TEMPERATURE = 0.7
