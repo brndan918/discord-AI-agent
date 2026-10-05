@@ -19,13 +19,12 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
-import discord
-from discord import app_commands
-from mistralai.client import Mistral
-
 import config
+import discord
 from core.utils import load_json, log, save_json
-from main import update_token
+from discord import app_commands
+from google import genai
+from google.genai import types
 
 # ══════════════════════ 可調整參數（集中在這裡） ══════════════════════
 LOGGER = log.add_logg(
@@ -61,21 +60,21 @@ def update_api_key(key):
     with open(file_path, 'w', encoding='utf-8') as f:
         f.writelines(lines)
 
-MISTRAL_API_KEY = config.MISTRAL_API_KEY
+GEMINI_API_KEY = config.AI_API_KEY
 
-if MISTRAL_API_KEY == "YOUR_API-KEY_HERE":
-    LOGGER.critical("請取得你的 Mistral api key")
+if GEMINI_API_KEY == "YOUR_API-KEY_HERE":
+    LOGGER.critical("請取得你的 Gemini api key")
     time.sleep(2)
-    os.startfile(r"https://console.mistral.ai/api-keys")
+    os.startfile(r"https://aistudio.google.com/api-keys")
     time.sleep(5)
-    update_api_key(input("請在此輸入你的 Mistral API key："))
+    update_api_key(input("請在此輸入你的 Gemini API key："))
     LOGGER.info("API KEY 設定完成 即將重新啟動")
     time.sleep(3)
 
     os.startfile(r"run.bat")
     sys.exit(3)
 
-MODEL_NAME = "codestral-2508" # 或其他付費ai
+MODEL_NAME = "gemini-3.8-flash"  # 或其他 Gemini 模型
 
 SYSTEM_PROMPT = ""        # 留空則不送 system 訊息
 TEMPERATURE = 0.7
@@ -2422,7 +2421,7 @@ class AgentSetupMixin:
         self.run_tasks: dict[str, asyncio.Task] = {}
         self._stopping: set[str] = set()
         self.pending: dict[str, asyncio.Future] = {}
-        self.ai: Mistral | None = None
+        self.ai: genai.Client | None = None
         self.prompt_first = ""
         self._save_lock = asyncio.Lock()
         self._welcome_view: WelcomeView | None = None
@@ -2431,10 +2430,10 @@ class AgentSetupMixin:
         try:
             self.data = await load_json(DATA_FILE)
             self.prompt_first = await asyncio.to_thread(PROMPT_FIRST_FILE.read_text, "utf-8")
-            if MISTRAL_API_KEY:
-                self.ai = Mistral(api_key=MISTRAL_API_KEY)
+            if GEMINI_API_KEY:
+                self.ai = genai.Client(api_key=GEMINI_API_KEY)
             else:
-                LOGGER.warning("未設定 Mistral API Key，AI 對話功能無法使用")
+                LOGGER.warning("未設定 Gemini API Key，AI 對話功能無法使用")
             self._welcome_view = WelcomeView(self)
             self.bot.add_view(self._welcome_view)
             for guild_id, kind, message_id in self._collect_rebind_message_ids(self.data):
@@ -2582,7 +2581,7 @@ class AgentSetupMixin:
         if task["id"] in self.running:
             return await _reply(interaction, "⏳ 任務正在執行中")
         if self.ai is None:
-            return await _reply(interaction, "❌ 尚未設定 Mistral API Key 無法使用 AI")
+            return await _reply(interaction, "❌ 尚未設定 Gemini API Key 無法使用 AI")
         text = text.strip()
         try:
             template = self.prompt_first
@@ -2685,14 +2684,30 @@ class AgentSetupMixin:
         return approved
 
     async def _ask_ai(self, messages: list[dict]) -> str:
-        msgs = ([{"role": "system", "content": SYSTEM_PROMPT}] if SYSTEM_PROMPT else []) + messages
         if self.ai is None:
-            raise RuntimeError("Mistral client 未初始化")
-        resp = await self.ai.chat.complete_async(model=MODEL_NAME, messages=msgs, temperature=TEMPERATURE, max_tokens=MAX_TOKENS, stream=False)
-        content = resp.choices[0].message.content
-        if isinstance(content, str):
-            return content
-        return "".join(getattr(c, "text", "") or "" for c in (content or []))
+            raise RuntimeError("Gemini client 未初始化")
+        if not messages:
+            raise ValueError("messages 不可為空")
+
+        def to_content(m: dict) -> types.Content:
+            return types.Content(
+                role="model" if m["role"] == "assistant" else "user",
+                parts=[types.Part.from_text(text=m["content"])],
+            )
+
+        config = types.GenerateContentConfig(
+            system_instruction=SYSTEM_PROMPT or None,  # 留空則不送 system
+            temperature=TEMPERATURE,
+            max_output_tokens=MAX_TOKENS,
+        )
+        # 對話模式：用既有歷史建立 chat，再用 send_message 送出最新一則 user 訊息
+        chat = self.ai.aio.chats.create(
+            model=MODEL_NAME,
+            config=config,
+            history=[to_content(m) for m in messages[:-1]],
+        )
+        resp = await chat.send_message(messages[-1]["content"])
+        return resp.text or ""
 
     async def _run_loop(self, message: discord.Message, guild: discord.Guild, task: dict, user_msg: str, display_msg: str | None = None) -> None:
         gid, tid, blocks = guild.id, task["id"], task["blocks"]
@@ -2722,7 +2737,7 @@ class AgentSetupMixin:
                 try:
                     raw = await self._ask_ai(task["history"] + [{"role": "user", "content": user_msg}])
                 except Exception:
-                    LOGGER.error("呼叫 Mistral AI 失敗:\n%s", traceback.format_exc())
+                    LOGGER.error("呼叫 Gemini AI 失敗:\n%s", traceback.format_exc())
                     blocks[-1], task["retry"] = WARN_API, user_msg
                     break
                 LOGGER.debug("AI 原始回應（task=%s, round=%d）:\n%s", tid, _ + 1, raw)
