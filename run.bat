@@ -85,8 +85,6 @@ if %errorlevel% equ 2 (
     exit
 ) else if %errorlevel% equ 3 (
     exit
-) else if %errorlevel% equ 4 (
-    exit
 )
 
 pause
