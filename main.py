@@ -4,13 +4,12 @@ import logging
 import os
 import sys
 
-import discord
-from discord.ext import commands
-
 import config
+import discord
 
 # 匯入日誌工具
 from core.utils import log
+from discord.ext import commands
 
 # 建立 Logger
 LOGGER = log.add_logg(
@@ -93,6 +92,17 @@ async def main():
         await bot.start(token)
     except discord.LoginFailure:
         LOGGER.critical("Discord 登入失敗：無效的 Token。", exc_info=True)
+    except discord.errors.PrivilegedIntentsRequired:
+        LOGGER.critical(
+            "Bot 需要開啟 intents 才能運行\n"
+            "請進入到你的應用程式設定頁面，開啟 intents 並重新啟動 Bot"
+        )
+
+        await asyncio.sleep(6)
+        os.startfile(
+            "https://discord.com/developers/applications"
+        )
+
     except Exception:
         LOGGER.error("Bot 執行期間發生未預期錯誤", exc_info=True)
 
