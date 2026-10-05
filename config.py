@@ -17,10 +17,9 @@ os.makedirs(DATA_DIR, exist_ok=True)
 load_dotenv(os.path.join(BASE_DIR, ".env"), override=True)
 
 TOKEN = os.getenv("BOT_TOKEN")
-MISTRAL_API_KEY = os.getenv("API_KEY")
+AI_API_KEY = os.getenv("API_KEY")
 
 # 數據文件路徑
 DATA_FILES = {
     "discord_agent_data": os.path.join(DATA_DIR, "discord_agent_data.json"),
-    # 只留下discord ai agent data
 }
