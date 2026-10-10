@@ -11,11 +11,11 @@ DAI 是一個能讓 Discord Bot 結合 AI 能力並呼叫 Discord API 的自動�
 * **[Python](https://www.python.org/ftp/python/3.12.8/python-3.12.8-amd64.exe)** (v3.12.8 以上 開發者使用 v3.12.8)
 * **[Git](https://github.com/git-for-windows/git/releases/download/v2.56.0.windows.1/Git-2.56.0-64-bit.exe)** (用於更新)
 * 一個 **Discord 開發者帳號** (用於建立 Bot 取得 Token)
-* 一組 **Mistral AI 模型 API Key**
+* 一組 **Google AI 模型 API Key**
 
 ---
 
-## ⚙️ Step 1: 取得 Discord Bot Token 和 Mistral API Key
+## ⚙️ Step 1: 取得 Discord Bot Token 和 Google API Key
 
 1. 前往 [Discord Developer Portal](https://discord.com/developers/applications)。
 2. 點擊右上角 **New Application** 並輸入 Bot 名稱。
