@@ -14,28 +14,69 @@ Write-Host "請先安裝 Python 和 git 這兩個前置作業。"
 
 Write-Host "`r將在 0 秒後開始安裝..."
 
-Start-Sleep -Seconds 5
+Start-Sleep -Seconds 1
 
-$pythonInstalled = Get-Command python -ErrorAction SilentlyContinue
-$gitInstalled    = Get-Command git -ErrorAction SilentlyContinue
+$ProgressPreference = 'SilentlyContinue'
 
-$missingTools = @()
-
-if (-not $pythonInstalled) {
-    $missingTools += "Python"
+function Test-Command($name) {
+    return [bool](Get-Command $name -ErrorAction SilentlyContinue)
 }
 
-if (-not $gitInstalled) {
-    $missingTools += "Git"
+function Update-SessionPath {
+    $machinePath = [Environment]::GetEnvironmentVariable("Path", "Machine")
+    $userPath    = [Environment]::GetEnvironmentVariable("Path", "User")
+    $env:Path    = "$machinePath;$userPath"
 }
 
-if ($missingTools.Count -gt 0) {
-    Write-Host "【提示】未檢測到以下工具：$($missingTools -join ', ')" -ForegroundColor Red
-    Write-Host "請先安裝對應工具並設定環境變數（PATH）後再試。" -ForegroundColor Yellow
-    exit
+function Install-Python {
+    Write-Host "正在下載 Python 3.12.8..." -ForegroundColor Cyan
+    Invoke-WebRequest "https://www.python.org/ftp/python/3.12.8/python-3.12.8-amd64.exe" -OutFile ".\install-python.exe"
+
+    Write-Host "正在安裝 Python 3.12.8..." -ForegroundColor Yellow
+    Start-Process -Wait -FilePath ".\install-python.exe" -ArgumentList "/passive PrependPath=1 Include_launcher=1"
+
+    Remove-Item ".\install-python.exe" -ErrorAction SilentlyContinue
+    Update-SessionPath
 }
 
-Write-Host "Python 與 Git 均已安裝，前置作業已完成！" -ForegroundColor Green
+function Install-Git {
+    Write-Host "正在下載 Git 2.56.0.2..." -ForegroundColor Cyan
+    Invoke-WebRequest "https://github.com/git-for-windows/git/releases/download/v2.56.0.windows.2/Git-2.56.0.2-64-bit.exe" -OutFile ".\install-git.exe"
+
+    Write-Host "正在安裝 Git 2.56.0.2..." -ForegroundColor Yellow
+    Start-Process -Wait -FilePath ".\install-git.exe" -ArgumentList "/SILENT /NORESTART"
+
+    Remove-Item ".\install-git.exe" -ErrorAction SilentlyContinue
+    Update-SessionPath
+}
+
+if (-not (Test-Command "python")) {
+    Write-Host "【提示】未檢測到 Python" -ForegroundColor Red
+    $answer = Read-Host "是否要自動安裝 Python？ (y/n)"
+    if ($answer -eq 'y' -or $answer -eq 'Y') {
+        Install-Python
+    } else {
+        Write-Host "已略過 Python 安裝，請自行安裝後再執行此腳本。" -ForegroundColor Yellow
+        exit
+    }
+}
+
+if (-not (Test-Command "git")) {
+    Write-Host "【提示】未檢測到 Git" -ForegroundColor Red
+    $answer = Read-Host "是否要自動安裝 Git？ (y/n)"
+    if ($answer -eq 'y' -or $answer -eq 'Y') {
+        Install-Git
+    } else {
+        Write-Host "已略過 Git 安裝，請自行安裝後再執行此腳本。" -ForegroundColor Yellow
+        exit
+    }
+}
+
+if ((Test-Command "python") -and (Test-Command "git")) {
+    Write-Host "Python 與 Git 已成功安裝完成！" -ForegroundColor Green
+} else {
+    Write-Host "安裝後仍無法偵測到部分工具，請重新開啟 PowerShell 後再試。" -ForegroundColor Red
+}
 
 $confirm = Read-Host "你是否要新增 Discord AI agent 到你的專案？ (y/n)"
 
