@@ -19,14 +19,17 @@ Start-Sleep -Seconds 1
 $ProgressPreference = 'SilentlyContinue'
 
 function Test-Command($name) {
-    $cmd = Get-Command $name -ErrorAction SilentlyContinue
-    if (-not $cmd) { return $false }
+    return [bool](Get-Command $name -ErrorAction SilentlyContinue)
+}
 
-    if ($name -eq "python" -and $cmd.Source -like "*WindowsApps\python.exe*") {
-        $ver = & python --version 2>&1
-        if ($ver -notlike "*Python *") { return $false }
+function Test-Python {
+    if (-not (Get-Command python -ErrorAction SilentlyContinue)) { return $false }
+    try {
+        $out = & python --version 2>&1
+        return ($LASTEXITCODE -eq 0 -and "$out" -match "Python 3")
+    } catch {
+        return $false
     }
-    return $true
 }
 
 function Update-SessionPath {
@@ -57,7 +60,7 @@ function Install-Git {
     Update-SessionPath
 }
 
-if (-not (Test-Command "python")) {
+if (-not (Test-Python)) {
     Write-Host "【提示】未檢測到 Python" -ForegroundColor Red
     $answer = Read-Host "是否要自動安裝 Python？ (y/n)"
     if ($answer -eq 'y' -or $answer -eq 'Y') {
@@ -79,7 +82,7 @@ if (-not (Test-Command "git")) {
     }
 }
 
-if ((Test-Command "python") -and (Test-Command "git")) {
+if ((Test-Python) -and (Test-Command "git")) {
     Write-Host "Python 與 Git 已成功安裝完成！" -ForegroundColor Green
 } else {
     Write-Host "安裝後仍無法偵測到部分工具，請重新開啟 PowerShell 後再試。" -ForegroundColor Red
