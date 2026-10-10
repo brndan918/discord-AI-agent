@@ -52,7 +52,7 @@ del "install_ai-agent.txt"
   - 將 `.env.example` 重新命名 `.env`
   - 刪除安裝檔本身
 - 缺點
-  - 無法自動安裝 python 和 Git
+  - 無法自動安裝 Python 和 Git
 
 ### 2. 安裝依賴套件
 雙擊運行 `install_requirements.bat`
