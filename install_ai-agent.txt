@@ -19,7 +19,14 @@ Start-Sleep -Seconds 1
 $ProgressPreference = 'SilentlyContinue'
 
 function Test-Command($name) {
-    return [bool](Get-Command $name -ErrorAction SilentlyContinue)
+    $cmd = Get-Command $name -ErrorAction SilentlyContinue
+    if (-not $cmd) { return $false }
+
+    if ($name -eq "python" -and $cmd.Source -like "*WindowsApps\python.exe*") {
+        $ver = & python --version 2>&1
+        if ($ver -notlike "*Python *") { return $false }
+    }
+    return $true
 }
 
 function Update-SessionPath {
