@@ -51,6 +51,7 @@ if "%LOCAL_VERSION%"=="%REMOTE_VERSION%" (
 
 echo NEW VERSION!
 echo updating...
+del .ok-requirements
 git fetch --all --quiet
 git reset --hard --quiet origin/main
 
